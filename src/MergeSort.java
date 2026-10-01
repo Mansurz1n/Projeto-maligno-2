@@ -6,51 +6,51 @@ public class MergeSort {
      *
      * @param vetor vetor que será ordenado
      */
-    public static void sort(int[] vetor) {
+    public static void sort(byte[] vetor) {
 
         if (vetor == null || vetor.length < 2) {
             return;
         }
 
-        mergeSort(vetor, 0, vetor.length - 1);
+        mergeSort(vetor, (byte) 0, (byte) (vetor.length - 1));
     }
 
     /**
      * Divide o vetor recursivamente até chegar a subvetores
      * com apenas um elemento.
      */
-    private static void mergeSort(
-            int[] vetor,
-            int inicio,
-            int fim) {
+    static void mergeSort(
+            byte[] vetor,
+            byte inicio,
+            byte fim) {
 
         if (inicio >= fim) {
             return;
         }
 
-        final int meio = inicio + (fim - inicio) / 2;
+        final long meio = inicio + (fim - inicio) / 2;
 
-        mergeSort(vetor, inicio, meio);
-        mergeSort(vetor, meio + 1, fim);
+        mergeSort(vetor, inicio, (byte) meio);
+        mergeSort(vetor, (byte) (meio + 1), fim);
 
-        merge(vetor, inicio, meio, fim);
+        merge(vetor, inicio, (byte) meio, fim);
     }
 
     /**
      * Intercala duas partes já ordenadas do vetor.
      */
     private static void merge(
-            int[] vetor,
-            int inicio,
-            int meio,
-            int fim) {
+            byte[] vetor,
+             byte inicio,
+             byte meio,
+            byte fim) {
 
-        final int tamanho = fim - inicio + 1;
-        final int[] auxiliar = new int[tamanho];
+        final byte tamanho = (byte) (fim - inicio + 1);
+        final byte[] auxiliar = new byte[tamanho];
 
-        int esquerda = inicio;
-        int direita = meio + 1;
-        int posicao = 0;
+        byte esquerda = inicio;
+        byte direita = (byte) (meio + 1);
+        byte posicao = 0;
 
         while (esquerda <= meio && direita <= fim) {
 
@@ -78,7 +78,7 @@ public class MergeSort {
         }
 
         for (int i = 0; i < tamanho; i++) {
-            vetor[inicio + i] = auxiliar[i];
+            vetor[inicio + i] = (byte) auxiliar[i];
         }
     }
 }
