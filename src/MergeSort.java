@@ -1,61 +1,84 @@
+
 public class MergeSort {
 
-    public static void mergeSort(int[] vetor, int inicio, int fim) {
+    /**
+     * Ordena o vetor em ordem crescente utilizando o algoritmo Merge Sort.
+     *
+     * @param vetor vetor que será ordenado
+     */
+    public static void sort(int[] vetor) {
 
-        if (inicio < fim) {
-
-            int meio = (inicio + fim) / 2;
-
-            // Divide a primeira metade
-            mergeSort(vetor, inicio, meio);
-
-            // Divide a segunda metade
-            mergeSort(vetor, meio + 1, fim);
-
-            // Junta as duas metades ordenadas
-            merge(vetor, inicio, meio, fim);
+        if (vetor == null || vetor.length < 2) {
+            return;
         }
+
+        mergeSort(vetor, 0, vetor.length - 1);
     }
 
-    public static void merge(int[] vetor, int inicio, int meio, int fim) {
+    /**
+     * Divide o vetor recursivamente até chegar a subvetores
+     * com apenas um elemento.
+     */
+    private static void mergeSort(
+            int[] vetor,
+            int inicio,
+            int fim) {
 
-        int[] aux = new int[fim - inicio + 1];
+        if (inicio >= fim) {
+            return;
+        }
 
-        int i = inicio;
-        int j = meio + 1;
-        int k = 0;
+        final int meio = inicio + (fim - inicio) / 2;
 
-        // Compara os elementos das duas metades
-        while (i <= meio && j <= fim) {
+        mergeSort(vetor, inicio, meio);
+        mergeSort(vetor, meio + 1, fim);
 
-            if (vetor[i] <= vetor[j]) {
-                aux[k] = vetor[i];
-                i++;
+        merge(vetor, inicio, meio, fim);
+    }
+
+    /**
+     * Intercala duas partes já ordenadas do vetor.
+     */
+    private static void merge(
+            int[] vetor,
+            int inicio,
+            int meio,
+            int fim) {
+
+        final int tamanho = fim - inicio + 1;
+        final int[] auxiliar = new int[tamanho];
+
+        int esquerda = inicio;
+        int direita = meio + 1;
+        int posicao = 0;
+
+        while (esquerda <= meio && direita <= fim) {
+
+            if (vetor[esquerda] <= vetor[direita]) {
+                auxiliar[posicao] = vetor[esquerda];
+                esquerda++;
             } else {
-                aux[k] = vetor[j];
-                j++;
+                auxiliar[posicao] = vetor[direita];
+                direita++;
             }
 
-            k++;
+            posicao++;
         }
 
-        // Copia o restante da primeira metade
-        while (i <= meio) {
-            aux[k] = vetor[i];
-            i++;
-            k++;
+        while (esquerda <= meio) {
+            auxiliar[posicao] = vetor[esquerda];
+            esquerda++;
+            posicao++;
         }
 
-        // Copia o restante da segunda metade
-        while (j <= fim) {
-            aux[k] = vetor[j];
-            j++;
-            k++;
+        while (direita <= fim) {
+            auxiliar[posicao] = vetor[direita];
+            direita++;
+            posicao++;
         }
 
-        // Copia o vetor auxiliar de volta
-        for (i = inicio, k = 0; i <= fim; i++, k++) {
-            vetor[i] = aux[k];
+        for (int i = 0; i < tamanho; i++) {
+            vetor[inicio + i] = auxiliar[i];
         }
     }
 }
